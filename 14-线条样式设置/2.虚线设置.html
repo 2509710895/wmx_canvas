@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        id:
+        width:
+        height:
+     -->
+    <canvas id="c1" width="600" height="400">
+        当前浏览器不支持canvas，请下载最新浏览器
+    </canvas>
+
+    <script>
+        // 找到画布
+        const c1 = document.getElementById('c1');
+        if(!c1.getContext){
+            console.log('当前浏览器不支持canvas，请下载最新浏览器')
+        }
+        // 获取画笔，上下文对象
+        const ctx=c1.getContext('2d');
+
+        let offest=0
+
+        function render() {
+            ctx.clearRect(0,0,600,400)
+            offest++
+            if(offest>60){
+                offest=0
+            }
+
+            ctx.moveTo(150, 150)
+            ctx.lineTo(300, 200)
+            ctx.lineTo(450, 150)
+
+            // 设置线条样式 默认1px
+            ctx.lineWidth = 1
+            // 设置线段端点样式 butt平齐，round半圆，正方形square
+            ctx.lineCap = 'square'
+            // 设置两个线段连接处的样式 miter 外侧连接的角,round 角被磨圆了，bevel 角被磨平
+            ctx.lineJoin = 'miter'
+            // 斜接面太长，可进行限制
+            ctx.miterLimit = 5
+
+            // 设置虚线
+            ctx.setLineDash([40, 20])
+            // 虚线偏移
+            ctx.lineDashOffset = offest
+
+            ctx.stroke()
+            requestAnimationFrame(render)
+        }
+
+        requestAnimationFrame(render)
+
+        
+    </script>
+</body>
+</html>

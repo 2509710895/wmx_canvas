@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        id:
+        width:
+        height:
+     -->
+    <canvas id="c1" width="1000" height="800">
+        当前浏览器不支持canvas，请下载最新浏览器
+    </canvas>
+
+    <script>
+        // 找到画布
+        const c1 = document.getElementById('c1');
+        if(!c1.getContext){
+            console.log('当前浏览器不支持canvas，请下载最新浏览器')
+        }
+        // 获取画笔，上下文对象
+        const ctx=c1.getContext('2d');
+
+        // 创建图案样式 pattern
+        const img = new Image();
+        img.src="./money.png"
+
+        img.onload = function (){
+            // 创建图案对象 createPattern(图片对象 img 对象或是 canvas 对象,重复对象 repeat norepeat repeat-x repeat-y)
+            var patten = ctx.createPattern(img,'repeat')
+            ctx.fillStyle = patten
+            ctx.fillRect(0,0,1000,800)
+        }
+        
+    </script>
+</body>
+</html>

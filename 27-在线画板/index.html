@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c1" width="800" height="600"></canvas>
+    <hr/>
+    <button id="boldBtn" type="button">粗线条</button>
+    <button id="thinBtn" type="button">细线条</button>
+    <button id="saveBtn" type="button">保存签名</button>
+    <input type="color" name="" id="color" />
+    <button id="clearBtn" type="button">橡皮擦</button>
+    <button id="nullBtn" type="button">清空画布</button>
+    <script>
+        const canvas = document.getElementById('c1');
+        const ctx = canvas.getContext('2d');
+        // 线段连接处圆润
+        ctx.lineJoin = 'round';
+        // 线段起止处圆润
+        ctx.lineCap = 'round';
+        // 粗线条
+        const boldBtn = document.getElementById('boldBtn');
+        // 细线条
+        const thinBtn = document.getElementById('thinBtn');
+        // 保存
+        const saveBtn = document.getElementById('saveBtn');
+        const inputColor = document.getElementById('color');
+        const clearBtn = document.getElementById('clearBtn');
+        const nullBtn = document.getElementById('nullBtn');
+
+        let isDrawer =false 
+
+        canvas.onmousedown = function(e){
+            isDrawer = true
+            ctx.beginPath()
+            const x= e.pageX - canvas.offsetLeft
+            const y=e.pageY - canvas.offsetTop
+            ctx.moveTo(x,y)
+        }
+
+        canvas.onmousemove = function(e){
+            if(!isDrawer) return
+            const x= e.pageX - canvas.offsetLeft
+            const y=e.pageY - canvas.offsetTop
+            ctx.lineTo(x,y)
+            ctx.stroke()
+        }
+
+        canvas.onmouseup = function (e){
+            isDrawer = false
+            ctx.closePath()
+        }
+
+        boldBtn.onclick = function(){
+            ctx.globalCompositeOperation = "source-over"
+            ctx.lineWidth = 10
+        }
+
+        thinBtn.onclick = function(){
+            ctx.globalCompositeOperation = "source-over"
+            ctx.lineWidth = 1
+        }
+
+        clearBtn.onclick = function(){
+            ctx.globalCompositeOperation = 'destination-out'
+        }
+
+        nullBtn.onclick = function(){
+            ctx.clearRect(0,0,canvas.width,canvas.height)
+        }
+
+        saveBtn.onclick = function (){
+            const img = canvas.toDataURL('image/png')
+            const a = document.createElement('a')
+            a.href = img
+            a.download = '签名.png'
+            a.click()
+        }
+
+        inputColor.onchange = function(e){
+            ctx.strokeStyle = e.target.value
+        }
+    </script>
+</body>
+</html>

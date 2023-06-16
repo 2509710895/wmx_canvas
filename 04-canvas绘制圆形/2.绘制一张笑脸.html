@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        id:
+        width:
+        height:
+     -->
+    <canvas id="c1" width="600" height="400">
+        当前浏览器不支持canvas，请下载最新浏览器
+    </canvas>
+
+    <script>
+        // 找到画布
+        const c1 = document.getElementById('c1');
+        if(!c1.getContext){
+            console.log('当前浏览器不支持canvas，请下载最新浏览器')
+        }
+        // 获取画笔，上下文对象
+        const ctx=c1.getContext('2d');
+
+        // 画脸
+        ctx.beginPath()
+        ctx.arc(100,100,75,0,Math.PI*2)
+        ctx.stroke()
+        ctx.closePath()
+
+        // 画嘴巴
+        ctx.beginPath()
+        ctx.arc(100,100,50,0,Math.PI)
+        ctx.stroke()
+        ctx.closePath()
+
+        // 画左眼
+        ctx.beginPath()
+        ctx.arc(75,75,5,0,Math.PI*2)
+        ctx.stroke()
+        ctx.closePath()
+
+        // 画右眼
+        ctx.beginPath()
+        ctx.arc(125,75,5,0,Math.PI*2)
+        ctx.stroke()
+        ctx.closePath()
+    </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        id:
+        width:
+        height:
+     -->
+    <canvas id="c1" width="600" height="400">
+        当前浏览器不支持canvas，请下载最新浏览器
+    </canvas>
+
+    <script>
+        // 找到画布
+        const c1 = document.getElementById('c1');
+        if(!c1.getContext){
+            console.log('当前浏览器不支持canvas，请下载最新浏览器')
+        }
+        // 获取画笔，上下文对象
+        const ctx=c1.getContext('2d');
+        
+        ctx.translate(300,200)
+        ctx.rotate(Math.PI/2)
+        ctx.fillRect(-125,-50,250,100) 
+        
+    </script>
+</body>
+</html>

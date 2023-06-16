@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        id:
+        width:
+        height:
+     -->
+    <canvas id="c1" width="600" height="400">
+        当前浏览器不支持canvas，请下载最新浏览器
+    </canvas>
+
+    <script>
+        // 找到画布
+        const c1 = document.getElementById('c1');
+        if(!c1.getContext){
+            console.log('当前浏览器不支持canvas，请下载最新浏览器')
+        }
+        // 获取画笔，上下文对象
+        const ctx=c1.getContext('2d');
+
+        // const hearPath=new Path2D()
+        
+        // hearPath.moveTo(300,200)
+        // // 两个控制点，一个终点
+        // hearPath.bezierCurveTo(350,150,400,200,300,300)
+        // hearPath.bezierCurveTo(200,200,250,150,300,200)
+        // ctx.stroke(hearPath)
+
+        class Heart {
+            constructor(x, y) {
+                this.x = x
+                this.y = y
+                this.color="red"
+                this.isIn=false
+                this.eventMapList={
+                    hover:[],
+                    leave:[]
+                }
+                // c1.addEventListener('mousemove',function(e){
+                    
+                // })
+                c1.onmousemove=(e)=>{
+                    let x=e.offsetX
+                    let y=e.offsetY
+                    console.log(this,Date.now());
+                    this.isIn = ctx.isPointInPath(this.heartPath, x, y)
+                    if(this.isIn){
+                        this.eventMapList['hover'].forEach(f=>f())
+                    }else{
+                        this.eventMapList['leave'].forEach(f=>f())
+                    }
+                }
+            }
+            onHover(fn){
+                this.eventMapList['hover'].push(fn)
+            }
+            onLeave(fn){
+                this.eventMapList['leave'].push(fn)
+            }
+            setPosition(x,y){
+                this.x=x
+                this.y=y
+            }
+            draw(){
+                this.heartPath = new Path2D()
+                this.heartPath.moveTo(this.x, this.y)
+                // 两个控制点，一个终点
+                this.heartPath.bezierCurveTo(this.x + 50, this.y - 50, this.x + 100, this.y, this.x, this.y + 100)
+                this.heartPath.bezierCurveTo(this.x - 100, this.y, this.x - 50, this.y - 50, this.x, this.y)
+                ctx.save()
+                ctx.fillStyle=this.color
+                ctx.fill(this.heartPath)
+
+                ctx.restore()
+            }
+        }
+
+        const heart = new Heart(100,100)
+        heart.onHover(()=>{
+            heart.color="blue"
+        })
+        heart.onLeave(()=>{
+            heart.color="red"
+        })
+        function render(){
+            ctx.clearRect(0,0,600,400)
+            heart.draw()
+            requestAnimationFrame(render)
+        }
+        render()
+    </script>
+</body>
+</html>

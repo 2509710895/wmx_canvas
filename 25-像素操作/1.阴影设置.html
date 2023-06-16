@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        id:
+        width:
+        height:
+     -->
+    <canvas id="c1" width="216" height="384">
+        当前浏览器不支持canvas，请下载最新浏览器
+    </canvas>
+
+    <script>
+        // 找到画布
+        const c1 = document.getElementById('c1');
+        if(!c1.getContext){
+            console.log('当前浏览器不支持canvas，请下载最新浏览器')
+        }
+        // 获取画笔，上下文对象
+        const ctx=c1.getContext('2d');
+        
+        const img = new Image()
+        img.src='./girl.png'
+
+        img.onload = function (){
+            // (图片对象，渲染的水平位置x，渲染的垂直位置y)
+            // ctx.drawImage(img,0,0)
+            // (图片对象，渲染的水平位置x，渲染的垂直位置y，缩放到对应的宽度，缩放到对应的高度)
+            ctx.drawImage(img,0,0,216,384)
+            // (图片对象，前四个是原图片需要裁剪的起点和矩形的宽高,
+            // 渲染的水平位置x，渲染的垂直位置y，缩放到对应的宽度，缩放到对应的高度)
+            // ctx.drawImage(img,0,480,1080,480,0,0,216,384)
+            let imageData = ctx.getImageData(0,0,216,384)
+            console.log(imageData);
+
+            for(let i=0,len=imageData.data.length;i<len;i++){
+                // 计算出当前像素的平均值
+                let avg = (imageData.data[i]+imageData.data[i+1]+imageData.data[i+2])/3
+                imageData.data[i]=avg
+                imageData.data[++i]=avg
+                imageData.data[++i]=avg
+                imageData.data[++i]=255
+            }
+            ctx.putImageData(imageData,0,0,108,192,216,384)
+        }
+        
+    </script>
+</body>
+</html>
